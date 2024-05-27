@@ -12,6 +12,10 @@ public class SnakePit {
 		startGame();
 	}
 	
+	/*
+	 * This function start the game
+	 */
+	
 	public static void startGame() {
 		
 		Map univers = new Map(50, 50);
