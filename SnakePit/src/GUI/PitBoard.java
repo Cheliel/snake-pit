@@ -3,9 +3,12 @@ package GUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import model.SnakeTypes;
 import model.univers.Cell;
@@ -29,7 +32,7 @@ public class PitBoard extends JPanel {
    private void drawCell(Graphics g) {
 	   
 	   //g.drawLine(0, 10 * 10, 50 * 11, 10 * 10);
-	   
+	   	   
 	   g.drawLine(0, 51 * 10, 51 * 10, 51 * 10);
 	   g.drawLine(51 * 10, 0, 51 * 10, 51 * 10);
 	   
@@ -62,7 +65,6 @@ public class PitBoard extends JPanel {
        g.setColor(c);
        g.fillRect(point.x * 10, point.y *10,10,10);
    }
-   
    
 
 }

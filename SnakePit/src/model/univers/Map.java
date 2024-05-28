@@ -20,7 +20,7 @@ public class Map {
 	
 	List<Cell> food;
 	
-	boolean isGameStarted;
+	volatile boolean gameStarted;
 	
 	private static int [] initialRedSnake = {4, 5, 6, 7, 8};
 	
@@ -197,7 +197,6 @@ public class Map {
 			System.out.println("X : " + bodyPart.getPosition().x + " | y : " + bodyPart.getPosition().y);
 		}
 		
-		
 	}
 	
 	public List<Cell> getSnake(SnakeTypes type){
@@ -214,11 +213,11 @@ public class Map {
 	}
 	
 	public boolean isGameStarted() {
-		return isGameStarted;
+		return gameStarted;
 	}
 	
 	public void setGameStatus(boolean status) {
-		isGameStarted = status;
+		gameStarted = status;
 	}
 	
 	public void setSnakeDirection(SnakeTypes type, Directions direction) {

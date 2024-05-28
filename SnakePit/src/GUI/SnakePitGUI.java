@@ -1,5 +1,6 @@
-package GUI;
 
+package GUI;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 import model.SnakeTypes;
@@ -23,13 +27,17 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	
 	private Map univers;
 	private PitBoard pitBoard;
+	private JPanel withBoard;
+	private SoloStatsBoard soloStatsBoard;
+	private Timer timer = new Timer(200, this);
 
 
 	public SnakePitGUI(Map univers) {
 		this.univers = univers;
+		withBoard = new JPanel();
+
 		initFrame();
 		initMenu();
-		initPitBoard();
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) { 
@@ -38,9 +46,54 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		});
 	}
 	
+	public void startAmbidextrie() {
+		initPitBoard();
+		//univers.setGameStatus(true);		
+	}
+	
 	private void initPitBoard() {
-		pitBoard = new PitBoard(univers);
-		this.add(pitBoard);
+		 SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				pitBoard = new PitBoard(univers);
+				add(pitBoard);
+				setVisible(true);
+			}
+		 });
+	}
+	
+	private void initSoloStatBoard() {
+	 SwingUtilities.invokeLater(new Runnable() {
+		@Override
+		public void run() {
+//			destroyPit();
+			soloStatsBoard = new SoloStatsBoard();
+			add(soloStatsBoard);
+			setVisible(true);
+		}
+	 });
+	}
+	
+	private void destroyPit() {
+		 SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				getContentPane().remove(pitBoard);
+				getContentPane().add(withBoard);
+				invalidate();
+				validate();	
+			}
+		 });
+	}
+	
+	private void clearFrame() {
+		for(Component c : this.getComponents()) {
+			getContentPane().remove(c);
+		}
+		getContentPane().add(withBoard);
+		invalidate();
+		validate();	
+		
 	}
 	
 	public void refresh() {
@@ -53,6 +106,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setTitle("Snake pit");
 		this.addKeyListener(this);
+		this.setFocusable(true);
 		this.setResizable(false);
 
 	}
@@ -60,17 +114,39 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	public void initMenu() {
 		
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Menu");
+		JMenu Game = new JMenu("Game");
+		JMenu Mode = new JMenu("Mode");
 		JMenuItem start = new JMenuItem("Reload");
+		JMenuItem Ambidextrie = new JMenuItem("Ambidextrie");
+		JMenuItem ami = new JMenuItem("ami");
+		JMenuItem Versus = new JMenuItem("Versus");
+		JMenuItem Pause= new JMenuItem("Pause");
 		
-		menu.add(start);
-		menuBar.add(menu);
+		
+		Game.add(start);
+		Game.add(Pause);
+		Mode.add(Ambidextrie);
+		Mode.add(ami);
+		Mode.add(Versus);
+		menuBar.add(Game);
+		menuBar.add(Mode);
+
+		
+		/*
+		 * SET Actions listener 
+		 */
+		
 		start.addActionListener(this);
-		
+		Ambidextrie.addActionListener(this);
+		Versus.addActionListener(this);
+		Pause.addActionListener(this);
+		ami.addActionListener(this);
 		this.setJMenuBar(menuBar);
 		
 	}
 	
+	
+	//move to univers 
 	private void restart() {
 		if(univers.isGameStarted()) {
 			univers.setGameStatus(false);
@@ -84,8 +160,30 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		
+		System.out.println(action);
+		
 		switch(action) {
+			case "Pause":
+				if(univers.isGameStarted()) {
+					univers.setGameStatus(false);
+				} else {
+					univers.setGameStatus(true);
+				}
+				break;
 			case "Reload":
+				System.out.println("hello 2");
+				restart();
+				break;
+			case "ami":
+				destroyPit();
+				break;
+			case "Ambidextrie":
+				//initPitBoard();
+				initSoloStatBoard();
+
+				
+				break;
+			case "Versus":
 				restart();
 				break;
 			default: 
@@ -95,9 +193,11 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		
         switch(e.getKeyChar()) {
         
         	case 'z':
+        		System.out.println("mqkjfhsjmlkj");
         		univers.setSnakeDirection(SnakeTypes.blueSnake, Directions.NORTH);
         		break;
         	case 'q':
