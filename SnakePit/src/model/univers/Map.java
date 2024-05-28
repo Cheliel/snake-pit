@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import GUI.Context;
 import model.Snake;
 import model.SnakeTypes;
 
@@ -105,6 +106,7 @@ public class Map {
 	public void	isSnakeDying() {
 		if(getCollisions()){
 			setGameStatus(false);
+			Context.setEndSoloGame(true);
 		}
 
 	}

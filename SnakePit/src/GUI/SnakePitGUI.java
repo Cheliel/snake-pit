@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Method;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -29,6 +32,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	private PitBoard pitBoard;
 	private JPanel withBoard;
 	private SoloStatsBoard soloStatsBoard;
+	private SoloEndBoard soloEndBoard;
 	private Timer timer = new Timer(200, this);
 
 
@@ -51,30 +55,66 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		//univers.setGameStatus(true);		
 	}
 	
+	
+	public void endSoloGame() {
+		initSoloEndBoard();
+	}
+	
 	private void initPitBoard() {
 		 SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				getContentPane().remove(soloStatsBoard);
 				pitBoard = new PitBoard(univers);
 				add(pitBoard);
+				revalidate();
 				setVisible(true);
 			}
 		 });
+	}
+	
+	
+	public void soloStatBoard() {
+		System.out.println("soloStatBoard");
+		initSoloStatBoard();
 	}
 	
 	private void initSoloStatBoard() {
 	 SwingUtilities.invokeLater(new Runnable() {
 		@Override
 		public void run() {
-//			destroyPit();
+			
+			try {
+				getContentPane().remove(pitBoard);
+				getContentPane().remove(soloEndBoard);
+			}catch(NullPointerException e) {}
+				
+			
 			soloStatsBoard = new SoloStatsBoard();
 			add(soloStatsBoard);
+			revalidate();
+			//repaint();
 			setVisible(true);
 		}
 	 });
 	}
 	
-	private void destroyPit() {
+	private void initSoloEndBoard() {
+		 SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {	
+				soloEndBoard = new SoloEndBoard();
+				getContentPane().remove(pitBoard);
+				add(soloEndBoard);
+				revalidate();
+				//repaint();
+				setVisible(true);
+
+			}
+		 });
+	}
+	
+	private void destroyPit(Method callBack) {
 		 SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -91,8 +131,8 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 			getContentPane().remove(c);
 		}
 		getContentPane().add(withBoard);
-		invalidate();
-		validate();	
+		revalidate();
+		//repaint();	
 		
 	}
 	
@@ -171,11 +211,10 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 				}
 				break;
 			case "Reload":
-				System.out.println("hello 2");
 				restart();
 				break;
 			case "ami":
-				destroyPit();
+				initSoloEndBoard();
 				break;
 			case "Ambidextrie":
 				//initPitBoard();
@@ -197,7 +236,6 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
         switch(e.getKeyChar()) {
         
         	case 'z':
-        		System.out.println("mqkjfhsjmlkj");
         		univers.setSnakeDirection(SnakeTypes.blueSnake, Directions.NORTH);
         		break;
         	case 'q':

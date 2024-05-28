@@ -22,15 +22,25 @@ public class App {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(SnakePit.univers.isGameStarted()) {
-					GUI.refresh();
-				}
 				
 				if(Context.isSoloGameStarting()) {
 					GUI.startAmbidextrie();
 					Context.setStartSoloGame(false);
 				}
 				
+				if(Context.isSoloGameEnding()) {
+					GUI.endSoloGame();
+					Context.setEndSoloGame(false);
+				}
+				
+				if(Context.isGoToMenu()) {
+					GUI.soloStatBoard();
+					Context.setGoToMenu(false);
+				}
+				
+				if(SnakePit.univers.isGameStarted()) {
+					GUI.refresh();
+				}
 			}});
 		
 		timer.start();

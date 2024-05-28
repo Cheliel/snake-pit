@@ -39,9 +39,7 @@ public class SoloStatsBoard extends JPanel implements ActionListener {
 		
 		
 		add(inputsPanel, BorderLayout.NORTH);
-		//setVisible(true);
 
-		//inputsPanel.setLayout();
 		
 	}
 
