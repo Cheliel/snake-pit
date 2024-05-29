@@ -1,4 +1,4 @@
-package GUI;
+package GUI.solo;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import GUI.Context;
 import model.univers.Map;
 
 public class SoloEndBoard extends JPanel implements ActionListener {
@@ -63,18 +64,15 @@ public class SoloEndBoard extends JPanel implements ActionListener {
 		labelPanel.setLayout(new GridLayout(4,0,0,0)); 
 		
 		JLabel title = new JLabel("GAME OVER");
-		JLabel pseudo = new JLabel("Pseudo : Cheliel");
-		JLabel temps = new JLabel("Time : 22:23 min");
-		JLabel berries = new JLabel("Berries : 547");
+		JLabel pseudo = new JLabel("Pseudo : " + Context.getLocalPlayer().getPseudo());
+		JLabel berries = new JLabel("Berries : " + Context.getLocalPlayer().getEatenBerries());
 		
 		title.setFont(new Font("Serif", Font.PLAIN, 40));
 		pseudo.setFont(new Font("Serif", Font.PLAIN, 16));
-		temps.setFont(new Font("Serif", Font.PLAIN, 16));
 		berries.setFont(new Font("Serif", Font.PLAIN, 16));
 		
 		labelPanel.add(title);
 		labelPanel.add(pseudo);
-		labelPanel.add(temps);
 		labelPanel.add(berries);
 		
 		mainPanel.add(labelPanel, BorderLayout.CENTER);

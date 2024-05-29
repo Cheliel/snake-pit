@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Controller.Ambidextrie;
 import GUI.Context;
 import model.Snake;
 import model.SnakeTypes;
@@ -32,12 +33,19 @@ public class Map {
 	
 	private static boolean allowMoveBackyard = true;
 	
+	private int eatenBerries = 0; 
+	
 
 	
 	public Map(int xSize, int Ysize) {
 		pitSize = xSize;
 		initSnakes(xSize);
 		manageFood();
+	}
+	
+	
+	public void reload() {
+		initSnakes(pitSize);
 	}
 	
 	private void initSnakes(int pitSize) {
@@ -66,9 +74,11 @@ public class Map {
 		for(int i = 0; i < food.size(); i++) {
 			if(food.get(i).getPosition().equals(blueSnake.getHead().getPosition())) {
 				blueSnake.eat();
+				incrementEatenBerries();
 				food.remove(i);
 			} else if(food.get(i).getPosition().equals(redSnake.getHead().getPosition())) {
 				redSnake.eat();
+				incrementEatenBerries();
 				food.remove(i);
 			}
 		}
@@ -106,7 +116,7 @@ public class Map {
 	public void	isSnakeDying() {
 		if(getCollisions()){
 			setGameStatus(false);
-			Context.setEndSoloGame(true);
+			Ambidextrie.endGame(eatenBerries);
 		}
 
 	}
@@ -207,6 +217,14 @@ public class Map {
 		List<Cell> body = type == SnakeTypes.redSnake ? redSnake.getBody() : blueSnake.getBody();
 		snake.addAll(body);
 		return snake;
+	}
+	
+	public int getEatenBerries() {
+		return eatenBerries;
+	}
+	
+	public void incrementEatenBerries() {
+		eatenBerries++;
 	}
 	
 	

@@ -38,6 +38,13 @@ public class App {
 					Context.setGoToMenu(false);
 				}
 				
+				if(Context.isFireAmbidextrieStats()) {
+					GUI.fireAmbidextrieStats();
+					Context.setFireAmbidextrieStats(false);
+				}
+				
+				
+				
 				if(SnakePit.univers.isGameStarted()) {
 					GUI.refresh();
 				}

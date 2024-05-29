@@ -25,28 +25,6 @@ public class SnakePit {
 	 * This function launch the game
 	 */
 	
-	public static void startGame() {
-		
-		//Map univers = new Map(50, 50);
-		//SnakePitGUI GUI = new SnakePitGUI(univers);
-		//GUI.setVisible(true);
-//		univers.setGameStatus(true);
-		Long tic = new java.util.Date().getTime();
-		
-
-		
-		while(true) {
-			
-			if(univers.isGameStarted()) {
-							
-				if((new java.util.Date().getTime() - tic) > ticRate) {
-				//	univers.newGeneration(); 
-					//GUI.refresh(); 		
-				//	tic = new java.util.Date().getTime();
-				}
-			}
-		}	
-	}
 	
 	public static void start() {
 		
@@ -57,7 +35,6 @@ public class SnakePit {
 				if(SnakePit.univers.isGameStarted()) {
 					SnakePit.univers.newGeneration();
 				}
-			
 			}});
 		
 		timer.start();

@@ -20,6 +20,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
+import Controller.Ambidextrie;
+import GUI.multiplayer.MultiPlayerRoom;
+import GUI.solo.SoloEndBoard;
+import GUI.solo.SoloStatsBoard;
 import model.SnakeTypes;
 import model.univers.Directions;
 import model.univers.Map;
@@ -33,6 +37,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	private JPanel withBoard;
 	private SoloStatsBoard soloStatsBoard;
 	private SoloEndBoard soloEndBoard;
+	private MultiPlayerRoom multiPlayerRoom;
 	private Timer timer = new Timer(200, this);
 
 
@@ -50,6 +55,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		});
 	}
 	
+	
 	public void startAmbidextrie() {
 		initPitBoard();
 		//univers.setGameStatus(true);		
@@ -65,6 +71,8 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 			@Override
 			public void run() {
 				getContentPane().remove(soloStatsBoard);
+				univers.reload();
+				univers.setGameStatus(true);
 				pitBoard = new PitBoard(univers);
 				add(pitBoard);
 				revalidate();
@@ -84,16 +92,29 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		@Override
 		public void run() {
 			
-			try {
-				getContentPane().remove(pitBoard);
-				getContentPane().remove(soloEndBoard);
-			}catch(NullPointerException e) {}
-				
+			clearFrame();
 			
 			soloStatsBoard = new SoloStatsBoard();
+			Ambidextrie.getStat();
 			add(soloStatsBoard);
 			revalidate();
-			//repaint();
+			setVisible(true);
+		}
+	 });
+	}
+	
+	
+	private void initMultiplayerRoom() {
+	 SwingUtilities.invokeLater(new Runnable() {
+		@Override
+		public void run() {
+			
+			clearFrame();
+			
+			multiPlayerRoom = new MultiPlayerRoom();
+			//Ambidextrie.getStat();
+			add(multiPlayerRoom);
+			revalidate();
 			setVisible(true);
 		}
 	 });
@@ -107,32 +128,31 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 				getContentPane().remove(pitBoard);
 				add(soloEndBoard);
 				revalidate();
-				//repaint();
 				setVisible(true);
 
 			}
 		 });
 	}
 	
-	private void destroyPit(Method callBack) {
-		 SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				getContentPane().remove(pitBoard);
-				getContentPane().add(withBoard);
-				invalidate();
-				validate();	
-			}
-		 });
-	}
 	
 	private void clearFrame() {
-		for(Component c : this.getComponents()) {
-			getContentPane().remove(c);
-		}
-		getContentPane().add(withBoard);
-		revalidate();
-		//repaint();	
+		try {
+			getContentPane().remove(pitBoard);
+		}catch(NullPointerException e) {}
+		
+		try {
+			getContentPane().remove(soloStatsBoard);
+		}catch(NullPointerException e) {}
+		
+		
+		try {
+			getContentPane().remove(soloEndBoard);
+		}catch(NullPointerException e) {}
+		
+		
+		try {
+			getContentPane().remove(multiPlayerRoom);
+		}catch(NullPointerException e) {}
 		
 	}
 	
@@ -158,7 +178,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		JMenu Mode = new JMenu("Mode");
 		JMenuItem start = new JMenuItem("Reload");
 		JMenuItem Ambidextrie = new JMenuItem("Ambidextrie");
-		JMenuItem ami = new JMenuItem("ami");
+		JMenuItem ami = new JMenuItem("Multiplayer");
 		JMenuItem Versus = new JMenuItem("Versus");
 		JMenuItem Pause= new JMenuItem("Pause");
 		
@@ -186,6 +206,11 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	}
 	
 	
+	public void fireAmbidextrieStats() {
+		soloStatsBoard.refreshStatTable();
+	}
+	
+	
 	//move to univers 
 	private void restart() {
 		if(univers.isGameStarted()) {
@@ -194,6 +219,15 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		univers.clearPit();
 		univers.setGameStatus(true);
 
+	}
+	
+	
+	private void pause() {
+		if(univers.isGameStarted()) {
+			univers.setGameStatus(false);
+		} else {
+			univers.setGameStatus(true);
+		}	
 	}
 
 	@Override
@@ -204,23 +238,16 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		
 		switch(action) {
 			case "Pause":
-				if(univers.isGameStarted()) {
-					univers.setGameStatus(false);
-				} else {
-					univers.setGameStatus(true);
-				}
+				pause();
 				break;
 			case "Reload":
 				restart();
 				break;
-			case "ami":
-				initSoloEndBoard();
+			case "Multiplayer":
+				initMultiplayerRoom();
 				break;
 			case "Ambidextrie":
-				//initPitBoard();
 				initSoloStatBoard();
-
-				
 				break;
 			case "Versus":
 				restart();
