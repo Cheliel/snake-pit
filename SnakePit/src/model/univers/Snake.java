@@ -1,11 +1,8 @@
-package model;
+package model.univers;
 
 import java.awt.Point;
 import java.util.List;
 import java.util.Random;
-
-import model.univers.Cell;
-import model.univers.Directions;
 
 public class Snake {
 	

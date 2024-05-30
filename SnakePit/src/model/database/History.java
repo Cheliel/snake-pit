@@ -1,6 +1,6 @@
 package model.database;
 
-public class History {
+public class History implements Comparable<History> {
 
 	private Long id;
 	private String pseudo;
@@ -42,5 +42,10 @@ public class History {
 	}
 	public void setGameModeId(Long gameModeId) {
 		this.gameModeId = gameModeId;
+	}
+
+	@Override
+	public int compareTo(History o) {
+        return Integer.compare(o.getBerries(), getBerries());	
 	}
 }

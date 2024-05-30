@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import Controller.Ambidextrie;
-import GUI.Context;
-import model.Snake;
-import model.SnakeTypes;
+import Controller.Context;
 
 public class Map {
 	
@@ -117,6 +115,7 @@ public class Map {
 		if(getCollisions()){
 			setGameStatus(false);
 			Ambidextrie.endGame(eatenBerries);
+			resetEatenBerries();
 		}
 
 	}
@@ -225,6 +224,10 @@ public class Map {
 	
 	public void incrementEatenBerries() {
 		eatenBerries++;
+	}
+	
+	public void resetEatenBerries() {
+		eatenBerries = 0;
 	}
 	
 	

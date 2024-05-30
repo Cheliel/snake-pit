@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import GUI.Context;
+import Controller.Context;
+import Controller.SnakePit;
 import GUI.SnakePitGUI;
 import model.univers.Map;
 
@@ -23,34 +24,44 @@ public class App {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(Context.isSoloGameStarting()) {
-					GUI.startAmbidextrie();
-					Context.setStartSoloGame(false);
-				}
-				
-				if(Context.isSoloGameEnding()) {
-					GUI.endSoloGame();
-					Context.setEndSoloGame(false);
-				}
-				
-				if(Context.isGoToMenu()) {
-					GUI.soloStatBoard();
-					Context.setGoToMenu(false);
-				}
-				
-				if(Context.isFireAmbidextrieStats()) {
-					GUI.fireAmbidextrieStats();
-					Context.setFireAmbidextrieStats(false);
-				}
-				
-				
-				
-				if(SnakePit.univers.isGameStarted()) {
-					GUI.refresh();
-				}
+				navigationEvents(GUI);
+				gameEvents(GUI);
+
 			}});
 		
 		timer.start();
+	}
+	
+	private void navigationEvents(SnakePitGUI GUI) {
+		
+		if(Context.isGoToMenu()) {
+			GUI.soloStatBoard();
+			Context.setGoToMenu(false);
+		}
+		
+		if(Context.isFireAmbidextrieStats()) {
+			GUI.fireAmbidextrieStats();
+			Context.setFireAmbidextrieStats(false);
+		}
+		
+		
+	}
+	
+	private void gameEvents(SnakePitGUI GUI) {
+		
+		if(Context.isSoloGameStarting()) {
+			GUI.startAmbidextrie();
+			Context.setStartSoloGame(false);
+		}
+		
+		if(Context.isSoloGameEnding()) {
+			GUI.endSoloGame();
+			Context.setEndSoloGame(false);
+		}
+		
+		if(SnakePit.univers.isGameStarted()) {
+			GUI.refresh();
+		}
 	}
 
 }

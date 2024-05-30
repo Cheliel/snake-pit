@@ -1,19 +1,21 @@
-package Controller.jdbc;
+package model.jdbc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import Controller.DataBaseConnexion;
-import Interface.historyDAO;
+import Errors.SQLConnectionException;
 import model.database.History;
+import model.interfaces.historyDAO;
 
 public class JdbcHistoryDao extends DataBaseConnexion implements historyDAO {
 	
-	public JdbcHistoryDao() {
+	public JdbcHistoryDao() throws SQLConnectionException {
+		
 		super();
 	}
 
@@ -37,8 +39,8 @@ public class JdbcHistoryDao extends DataBaseConnexion implements historyDAO {
 	@Override
 	public List<History> getHistoryByMode(Long gameModeId) {
 		try {
-			String sql = "select * from history where id_gameMode = " + gameModeId;
-			
+			String sql = "select * from history where id_gameMode = " + gameModeId + " AND berries > 0";
+			// ORDER BY berries DESC
 			ResultSet result = this.getSTMT().executeQuery(sql);
 			
 			List<History> historyList = new ArrayList<History>();
@@ -59,11 +61,12 @@ public class JdbcHistoryDao extends DataBaseConnexion implements historyDAO {
 							break;
 					}
 					
-					
 				}
-				historyList.add(history);	
+				
+				historyList.add(history);						
 				
 			}
+			Collections.sort(historyList);			
 			return historyList;
 
 		} catch (SQLException e) {

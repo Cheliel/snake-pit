@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import GUI.Context;
+import Controller.Context;
+import launcher.App;
 import model.univers.Map;
 
 public class SoloEndBoard extends JPanel implements ActionListener {
@@ -29,14 +31,20 @@ public class SoloEndBoard extends JPanel implements ActionListener {
 	
 	
 	public void initLayout() {
+		
+	
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		
 		initButtonPannel(mainPanel);
 		initLabels(mainPanel);
-	
-		add(mainPanel, BorderLayout.CENTER);
+		
+		add(mainPanel, BorderLayout.CENTER);	     
+		
+		repaint();
+		revalidate();
 
+	
 		
 	}
 	
@@ -56,9 +64,11 @@ public class SoloEndBoard extends JPanel implements ActionListener {
 		buttonPannel.add(menu);
 		
 		mainPanel.add(buttonPannel, BorderLayout.SOUTH);
+		
 	}
 	
 	private void initLabels(JPanel mainPanel) {
+		
 		
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(4,0,0,0)); 
@@ -87,7 +97,7 @@ public class SoloEndBoard extends JPanel implements ActionListener {
 		
 		switch(action) {
 			case "Restart":
-				Context.setStartSoloGame(true);
+				Context.startAmbidextrie(Context.getLocalPlayer().getPseudo());
 				break;			
 			case "Menu":
 				Context.setGoToMenu(true);

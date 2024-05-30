@@ -1,4 +1,4 @@
-package launcher;
+package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +15,7 @@ public class SnakePit {
 	public static int ticRate = 95;
 	public volatile static Map univers;
 
-	SnakePit(Map univers, int ticRate){
+	public SnakePit(Map univers, int ticRate){
 		SnakePit.ticRate = ticRate;
 		SnakePit.univers = univers;
 		start();
@@ -38,7 +38,6 @@ public class SnakePit {
 			}});
 		
 		timer.start();
-
 	}
 
 }

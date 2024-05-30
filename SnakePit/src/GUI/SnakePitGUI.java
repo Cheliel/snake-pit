@@ -24,9 +24,9 @@ import Controller.Ambidextrie;
 import GUI.multiplayer.MultiPlayerRoom;
 import GUI.solo.SoloEndBoard;
 import GUI.solo.SoloStatsBoard;
-import model.SnakeTypes;
 import model.univers.Directions;
 import model.univers.Map;
+import model.univers.SnakeTypes;
 
 public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	
@@ -57,12 +57,14 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	
 	
 	public void startAmbidextrie() {
+		clearFrame();
 		initPitBoard();
 		//univers.setGameStatus(true);		
 	}
 	
 	
 	public void endSoloGame() {
+		clearFrame();
 		initSoloEndBoard();
 	}
 	
@@ -83,7 +85,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	
 	
 	public void soloStatBoard() {
-		System.out.println("soloStatBoard");
+		clearFrame();
 		initSoloStatBoard();
 	}
 	
@@ -124,6 +126,7 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 		 SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {	
+				clearFrame();
 				soloEndBoard = new SoloEndBoard();
 				getContentPane().remove(pitBoard);
 				add(soloEndBoard);

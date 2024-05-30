@@ -1,4 +1,4 @@
-package GUI;
+package Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ public class Context {
 	private static boolean endSoloGame = false;
 	
 	private static boolean goToMenu = false;
+	
 	
 	
 	/**
@@ -94,11 +95,20 @@ public class Context {
 	
 	public static void startAmbidextrie(String pseudo) {
 		localPlayer.setPseudo(pseudo);
+		localPlayer.setEatenBerries(0);
 		Context.setStartSoloGame(true);
 	}
 	
 	public static Player getLocalPlayer() {
 		return localPlayer;
+	}
+	
+	public static void setLocalPlayerPseudo(String pseudo) {
+		localPlayer.setPseudo(pseudo);
+	}
+	
+	public static Player getOnlinePlayer() {
+		return onlinePlayer;
 	}
 	
 }

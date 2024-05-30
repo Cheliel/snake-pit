@@ -10,9 +10,9 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import model.SnakeTypes;
 import model.univers.Cell;
 import model.univers.Map;
+import model.univers.SnakeTypes;
 
 public class PitBoard extends JPanel {
 	

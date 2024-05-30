@@ -14,8 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
-import GUI.Context;
+import Controller.Context;
 import model.database.History;
 import model.univers.Map;
 
@@ -23,7 +24,7 @@ public class SoloStatsBoard extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = -995012187399452263L;
 	
-	public JTextArea Pseudo = new JTextArea("Enter a Pseudo");
+	public JTextArea Pseudo = new JTextArea("");
 	
 	public IndexScoreBoard indexScoreBoard;
 	
@@ -31,16 +32,22 @@ public class SoloStatsBoard extends JPanel implements ActionListener {
 	
 		
 	public SoloStatsBoard() {
-		this.setSize(300, 300);
-		this.setBackground(Color.darkGray);
-		this.setLayout(new BorderLayout());
+			
+		setSize(300, 300);
+		setBackground(Color.darkGray);
+		setLayout(new BorderLayout());
 		initInputs();
-		initTable();
+		initTable();	              
+	  	
 	}
 	
 	public void initInputs() {
+		
+		Pseudo.setColumns(10);
+		
 		JPanel inputsPanel = new JPanel();
 		inputsPanel.setLayout(new BorderLayout());
+		JPanel pseudoPanel = new JPanel();
 
 		JButton startButton = new JButton("Start");
 		startButton.setFocusable(false);
@@ -51,14 +58,18 @@ public class SoloStatsBoard extends JPanel implements ActionListener {
 		title.setFont(new Font("Serif", Font.PLAIN, 22));
 		inputsPanel.add(title, BorderLayout.NORTH);
 		inputsPanel.add(startButton, BorderLayout.SOUTH);
-		inputsPanel.add(p, BorderLayout.WEST);
-		inputsPanel.add(Pseudo, BorderLayout.CENTER);
+		
+		pseudoPanel.add(p);
+		pseudoPanel.add(Pseudo);
+		
+		inputsPanel.add(pseudoPanel, BorderLayout.CENTER);
+		inputsPanel.setSize(20, 20);
 		
 		
 		startButton.addActionListener(this);
 		
 		
-		add(inputsPanel, BorderLayout.NORTH);
+		add(inputsPanel, BorderLayout.WEST);
 
 		
 	}
@@ -71,8 +82,14 @@ public class SoloStatsBoard extends JPanel implements ActionListener {
 	}
 	
 	public void refreshStatTable() {
-		indexScoreBoard.histories = Context.getAmbidextrieStats();
-		indexScoreBoard.fireTableDataChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				indexScoreBoard.histories = Context.getAmbidextrieStats();
+				indexScoreBoard.fireTableDataChanged();
+	              
+	        }
+		});
 	}
 
 	@Override
