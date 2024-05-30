@@ -33,6 +33,9 @@ public class Snake {
 		body.add(newTail);
 	}
 	
+	/* When the game start
+	 *  - Randomly choose the first direction 
+	 */
 	
 	public Directions getRandomDirection() {
 		Random r = new Random();
@@ -58,6 +61,26 @@ public class Snake {
 
 	}
 	
+	/*
+	 * move each snake's Cell on the position of the next 
+	 */
+	
+	private void bodyFollowHead(Point oldHead) {
+		for(int i = 0; i < body.size(); i++) {
+			if(i == body.size() - 1) {
+				this.body.get(i).setPosition(oldHead);		
+			}
+			try{
+				this.body.get(i).setPosition(this.body.get(i + 1).getPosition());			
+			}catch(IndexOutOfBoundsException e) {
+				
+			}
+		}
+	}
+	
+	/*
+	 * move the head to the next known position
+	 */
 	
 	private void moveHead(Point newPosition) {
 		this.head.setX(newPosition.x);
@@ -70,6 +93,12 @@ public class Snake {
 		moveHead(newHead);
 	}
 	
+	
+	/*
+	 *  - Calculate the next position for a snake's head 
+	 * 	- Make each cell of the body follow his next
+	 *  - finely make the head move  
+	 */
 	
 	public void move() {
 		Point newPosition;
@@ -95,6 +124,10 @@ public class Snake {
 		moveHead(newPosition);
 		
 	}
+	
+	/*
+	 * Return false if the movement isn't tolerated by the game rule's  
+	 */
 	
 	public boolean isInvalidMovement(Directions direction) {
 		
@@ -127,6 +160,11 @@ public class Snake {
 		return result;
 	}
 	
+	
+	/*
+	 * Return the new position of the snake's head if it cross the univers boundaries 
+	 */
+	
 	public Point snakeOutOfBound(Point newHead){
 		Point result = new Point();
 		if(newHead.x > pitSize) {
@@ -147,19 +185,11 @@ public class Snake {
 		return result;
 	}
 	
-	private void bodyFollowHead(Point oldHead) {
-		for(int i = 0; i < body.size(); i++) {
-			if(i == body.size() - 1) {
-				this.body.get(i).setPosition(oldHead);		
-			}
-			try{
-				this.body.get(i).setPosition(this.body.get(i + 1).getPosition());			
-			}catch(IndexOutOfBoundsException e) {
-				
-			}	
-		}
-	}
 	
+
+	/*
+	 * A simple way for a snake to know him better
+	 */
 	
 	public boolean isPartOfMe(Point point) {
 		if(head.getPosition().equals(point)) {

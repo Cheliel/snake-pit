@@ -14,6 +14,12 @@ public class Cell {
 	
 	private long foodLifeTime; 
 	
+	
+	/*
+	 * - A Cell is the representation of anything that could be in the Map.class
+	 */
+	
+	
 	public Cell(Point point) {
 		this.position = new Point(point);
 		this.isFood = false;

@@ -33,12 +33,27 @@ public class Map {
 	
 	private int eatenBerries = 0; 
 	
-
+	/*
+	 * - A Map is the univers where game take place 
+	 */
 	
 	public Map(int xSize, int Ysize) {
 		pitSize = xSize;
 		initSnakes(xSize);
 		manageFood();
+	}
+	
+	/*
+	 * - A new generation is the result for 95ms in the univers,
+	 * 	for example each 95ms snakes move and berries can appear of disappear 
+	 */
+	
+	public void newGeneration() {
+		this.blueSnake.move();
+		this.redSnake.move();
+		manageFood();
+		applyRules();
+		
 	}
 	
 	
@@ -55,20 +70,20 @@ public class Map {
 	
 	
 	
-	public void newGeneration() {
-		this.blueSnake.move();
-		this.redSnake.move();
-		manageFood();
-		applyRules();
-		
-	}
 	
-	public void applyRules() {
+	private void applyRules() {
 		isSnakeEating();
 		isSnakeDying();
 	}
 	
-	public void isSnakeEating() {
+	/*
+	 * Check is one of the two snake is eating 
+	 * 	- command the snake to eat / grow 
+	 * 	- increment the number of berries that has been eaten 
+	 *  - remove the food from the univers 
+	 */
+	
+	private void isSnakeEating() {
 		for(int i = 0; i < food.size(); i++) {
 			if(food.get(i).getPosition().equals(blueSnake.getHead().getPosition())) {
 				blueSnake.eat();
@@ -82,7 +97,13 @@ public class Map {
 		}
 	}
 	
-	public void addFood() {
+	/*
+	 * Attempt to place a berry in the univers 
+	 * 	- while the chosen Cell is occupied, 
+	 * 		it change the position and try again
+	 */
+	
+	private void addFood() {
 		
 		Random r = new Random();
 		Point point = new Point();
@@ -101,7 +122,11 @@ public class Map {
 		food.add(berry);
 	}
 	
-	public boolean isCellOccuped(Point point) {
+	/*
+	 * Return true is the specified Cell exist either as berry or Snake part 
+	 */
+	
+	private boolean isCellOccuped(Point point) {
 		List<Cell> blueSnake = getSnake(SnakeTypes.blueSnake);
 		List<Cell> redSnake = getSnake(SnakeTypes.redSnake);
 		
@@ -110,6 +135,10 @@ public class Map {
 		}
 		return true;
 	}
+	
+	/*
+	 * Check any snake get a collision with another and end the game if it so 
+	 */
 	
 	public void	isSnakeDying() {
 		if(getCollisions()){
@@ -120,7 +149,11 @@ public class Map {
 
 	}
 	
-	public boolean getCollisions() {
+	/*
+	 * return true if the head of one snake hit the other
+	 */
+	
+	private boolean getCollisions() {
 		List<Cell> blueSnake = getSnake(SnakeTypes.blueSnake);
 		List<Cell> redSnake = getSnake(SnakeTypes.redSnake);
 		
@@ -133,7 +166,7 @@ public class Map {
 		
 	}
 	
-	public boolean isSnakePart(Point point, List<Cell> snake) {
+	private boolean isSnakePart(Point point, List<Cell> snake) {
 		for(Cell bodyPart : snake) {
 			if(bodyPart.getPosition().equals(point)) {
 				return true;
@@ -142,7 +175,7 @@ public class Map {
 		return false;
 	}
 	
-	public boolean isFood(Point point) {
+	private boolean isFood(Point point) {
 		for(Cell berry : food) {
 			if(berry.getPosition().equals(point)) {
 				return true;
@@ -152,7 +185,10 @@ public class Map {
 		
 	}
 
-	public void manageFood() {
+	/*
+	 * Control the population of berries in the univers 
+	 */
+	private void manageFood() {
 		if(lastFoodIncrement == null) {
 			lastFoodIncrement = new java.util.Date().getTime();
 			addFood();
@@ -165,6 +201,10 @@ public class Map {
 		spoilFood();
 	}
 	
+	/*
+	 * Create the body of one snake with specific position for each snake
+	 */
+	
 	private List<Cell> getBody(SnakeTypes type) {
 		List<Cell> body = new ArrayList<Cell>();
 		for(int i = 0; i < initialBlueSnake.length; i++) {
@@ -176,8 +216,11 @@ public class Map {
 		return body;
 	}
 	
-
-	public void spoilFood() {	
+/*
+ *  throw food from the univers if a certain amount of time had passed
+ */
+	
+	private void spoilFood() {	
 	  for(int i = 0; i < food.size(); i++) { 
 		  if(new java.util.Date().getTime() - food.get(i).getfoodLifeTime() > 8000) {
 			  food.remove(i);

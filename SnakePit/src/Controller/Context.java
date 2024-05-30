@@ -35,7 +35,6 @@ public class Context {
 	 */
 	
 	private static boolean fireAmbidextrieStats = false;
-	
 
 	private static List<History> ambidextrieStats = new ArrayList<History>();
 	

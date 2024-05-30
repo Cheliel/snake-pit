@@ -59,7 +59,6 @@ public class SnakePitGUI extends JFrame implements ActionListener, KeyListener {
 	public void startAmbidextrie() {
 		clearFrame();
 		initPitBoard();
-		//univers.setGameStatus(true);		
 	}
 	
 	

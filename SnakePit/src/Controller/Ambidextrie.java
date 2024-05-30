@@ -9,6 +9,11 @@ import model.univers.Player;
 
 public class Ambidextrie {
 	
+	/*
+	 * - Command the GUI to end the game (UI part) 
+	 * - Save score in history 
+	 */
+	
 	public static void endGame(int eatenBerries) {
 		
 		JdbcHistoryDao historyDB;
@@ -35,7 +40,9 @@ public class Ambidextrie {
 		
 	}
 	
-	
+	/*
+	 * - Retrieve statistic for ambidextrie game mode 
+	 */
 	public static void getStat() {
 		JdbcHistoryDao historyDB;
 		

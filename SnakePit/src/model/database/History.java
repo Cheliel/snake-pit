@@ -8,6 +8,11 @@ public class History implements Comparable<History> {
 	private Long gameModeId;
 	
 	
+	/*
+	 * Model as it is store in DATABASE 
+	 */
+	
+	
 	public History(String pseudo, int berries, Long gameModeId) {
 		this.pseudo = pseudo;
 		this.berries = berries;

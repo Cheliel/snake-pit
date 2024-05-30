@@ -120,8 +120,8 @@ public class MultiPlayerRoom extends JPanel implements ActionListener {
 		});
 	}
 	
+	
 	private void clearFrame() {
-		
 		for( Component c : getComponents()) {
 			c.setVisible(false);
 		}

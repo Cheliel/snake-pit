@@ -22,7 +22,8 @@ public class SnakePit {
 	}
 	
 	/*
-	 * This function launch the game
+	 * - Listen if the game as start 
+	 * - fire game generation if the game as started 
 	 */
 	
 	
